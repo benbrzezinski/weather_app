@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:weather_app/widgets/current_weather_card.dart';
 import 'package:weather_app/widgets/weather_forecast_section.dart';
-import 'package:weather_app/widgets/additional_information_section.dart';
+import 'package:weather_app/widgets/additional_info_section.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -40,7 +40,12 @@ class Home extends StatelessWidget {
           padding: EdgeInsets.only(left: 15, right: 15, bottom: 30),
           child: Column(
             children: [
-              CurrentWeatherCard(),
+              CurrentWeatherCard(
+                temperature: 19,
+                icon: Icons.wb_sunny,
+                iconColor: Colors.yellow,
+                name: "Sunny",
+              ),
               SizedBox(
                 height: columnGap,
               ),
@@ -48,7 +53,7 @@ class Home extends StatelessWidget {
               SizedBox(
                 height: columnGap,
               ),
-              AdditionalInformationSection()
+              AdditionalInfoSection()
             ],
           ),
         ),

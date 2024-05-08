@@ -1,16 +1,26 @@
 import 'package:flutter/material.dart';
 
 class WeatherForecastCard extends StatelessWidget {
-  const WeatherForecastCard({super.key});
+  const WeatherForecastCard(
+      {super.key,
+      required this.time,
+      required this.icon,
+      required this.iconColor,
+      required this.temperature});
+
+  final String time;
+  final IconData icon;
+  final Color iconColor;
+  final int temperature;
 
   @override
   Widget build(BuildContext context) {
-    return const Card(
+    return Card(
       elevation: 2,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(12))),
       child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
         child: SizedBox(
           width: 92,
           child: Wrap(
@@ -20,16 +30,18 @@ class WeatherForecastCard extends StatelessWidget {
             spacing: 8,
             children: [
               Text(
-                "09:00",
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                time,
+                style:
+                    const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
               ),
               Icon(
-                Icons.cloud,
+                icon,
                 size: 32,
+                color: iconColor,
                 semanticLabel: "weather phenomenon",
               ),
               Text(
-                "21°C",
+                "$temperature°",
               ),
             ],
           ),

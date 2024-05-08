@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 
-class AdditionalInformationCard extends StatelessWidget {
-  const AdditionalInformationCard({
+class AdditionalInfoItem extends StatelessWidget {
+  const AdditionalInfoItem({
     super.key,
     required this.icon,
+    required this.iconColor,
     required this.semanticLabel,
     required this.name,
     required this.value,
   });
 
   final IconData icon;
+  final Color iconColor;
   final String semanticLabel;
   final String name;
   final double value;
@@ -25,6 +27,7 @@ class AdditionalInformationCard extends StatelessWidget {
         Icon(
           icon,
           size: 32,
+          color: iconColor,
           semanticLabel: semanticLabel,
         ),
         Text(

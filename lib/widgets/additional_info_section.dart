@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:weather_app/widgets/additional_information_card.dart';
+import 'package:weather_app/widgets/additional_info_item.dart';
 
-class AdditionalInformationSection extends StatelessWidget {
-  const AdditionalInformationSection({super.key});
+class AdditionalInfoSection extends StatelessWidget {
+  const AdditionalInfoSection({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,20 +19,23 @@ class AdditionalInformationSection extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            AdditionalInformationCard(
+            AdditionalInfoItem(
               icon: Icons.water_drop,
+              iconColor: Colors.blue,
               semanticLabel: "water drop",
               name: "Humidity",
               value: 94,
             ),
-            AdditionalInformationCard(
+            AdditionalInfoItem(
               icon: Icons.air_rounded,
+              iconColor: Colors.teal,
               semanticLabel: "wind gusts",
               name: "Wind Speed",
               value: 7.67,
             ),
-            AdditionalInformationCard(
+            AdditionalInfoItem(
               icon: Icons.beach_access,
+              iconColor: Colors.red,
               semanticLabel: "open umbrella",
               name: "Pressure",
               value: 1006,
