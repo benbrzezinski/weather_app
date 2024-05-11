@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:weather_app/api/weather.dart';
 import 'package:weather_app/widgets/current_weather_card.dart';
 import 'package:weather_app/widgets/weather_forecast_section.dart';
@@ -87,11 +88,14 @@ class _HomeState extends State<Home> {
           final Map<String, dynamic> currentWeatherData = data["list"][0];
           final List<dynamic> weatherForecastList = data["list"];
 
-          final double currentTemp = currentWeatherData["main"]["temp"];
+          final num currentTemp = currentWeatherData["main"]["temp"];
           final (:maxTemp, :minTemp) = getMaxMinTemp(weatherForecastList);
           final String currentWeatherName =
               currentWeatherData["weather"][0]["main"];
-          final (:icon, :iconColor) = getIconByWeatherName(currentWeatherName);
+          final currentTime = DateTime.parse(currentWeatherData["dt_txt"]);
+          final currentHourTime = DateFormat.H().format(currentTime);
+          final (:icon, :iconColor) = getIconByWeatherName(
+              weatherName: currentWeatherName, hourTime: currentHourTime);
 
           final num currentHumidity = currentWeatherData["main"]["humidity"];
           final num currentWindSpeed = currentWeatherData["wind"]["speed"];

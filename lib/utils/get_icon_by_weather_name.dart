@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 
-({IconData icon, Color iconColor}) getIconByWeatherName(String weatherName) {
-  const icons = {
-    "Clear": (icon: Icons.wb_sunny_rounded, iconColor: Colors.yellow),
+({IconData icon, Color iconColor}) getIconByWeatherName(
+    {required String weatherName, required String hourTime}) {
+  final isDaytime =
+      hourTime != "21" && hourTime != "00" && hourTime != "03" ? true : false;
+
+  final icons = {
+    "Clear": (
+      icon: isDaytime ? Icons.wb_sunny_rounded : Icons.nightlight,
+      iconColor: Colors.yellow
+    ),
     "Clouds": (icon: Icons.cloud, iconColor: Colors.white),
     "Rain": (icon: Icons.beach_access, iconColor: Colors.blue),
     "Drizzle": (icon: Icons.umbrella, iconColor: Colors.cyan),

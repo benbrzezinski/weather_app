@@ -34,11 +34,13 @@ class WeatherForecastSection extends StatelessWidget {
               final Map<String, dynamic> item = weatherForecastList[i + 1];
               final String name = item["weather"][0]["main"];
               final time = DateTime.parse(item["dt_txt"]);
-              final (:icon, :iconColor) = getIconByWeatherName(name);
-              final double temp = item["main"]["temp"];
+              final hourTime = DateFormat.H().format(time);
+              final (:icon, :iconColor) =
+                  getIconByWeatherName(weatherName: name, hourTime: hourTime);
+              final num temp = item["main"]["temp"];
 
               return WeatherForecastCard(
-                time: DateFormat.H().format(time),
+                time: hourTime,
                 icon: icon,
                 iconColor: iconColor,
                 temperature: temp.round(),

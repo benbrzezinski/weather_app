@@ -1,12 +1,11 @@
 import 'dart:math';
 
-({double maxTemp, double minTemp}) getMaxMinTemp(
-    List<dynamic> weatherForecastList) {
-  final temperatures = <double>[];
+({num maxTemp, num minTemp}) getMaxMinTemp(List<dynamic> weatherForecastList) {
+  final temperatures = <num>[];
 
   for (int i = 0; i < 9; i++) {
-    final double currentMaxTemp = weatherForecastList[i]["main"]["temp_max"];
-    final double currentMinTemp = weatherForecastList[i]["main"]["temp_min"];
+    final num currentMaxTemp = weatherForecastList[i]["main"]["temp_max"];
+    final num currentMinTemp = weatherForecastList[i]["main"]["temp_min"];
     temperatures.addAll([currentMaxTemp, currentMinTemp]);
   }
 
