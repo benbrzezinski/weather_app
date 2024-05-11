@@ -2,18 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:weather_app/widgets/additional_info_item.dart';
 
 class AdditionalInfoSection extends StatelessWidget {
-  const AdditionalInfoSection({super.key});
+  const AdditionalInfoSection(
+      {super.key,
+      required this.humidity,
+      required this.windSpeed,
+      required this.pressure});
+
+  final num humidity;
+  final num windSpeed;
+  final num pressure;
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
+        const Text(
           "Additional Information",
           style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
-        SizedBox(
+        const SizedBox(
           height: 10,
         ),
         Row(
@@ -21,24 +29,24 @@ class AdditionalInfoSection extends StatelessWidget {
           children: [
             AdditionalInfoItem(
               icon: Icons.water_drop,
-              iconColor: Colors.blue,
+              iconColor: Colors.lightBlue,
               semanticLabel: "water drop",
               name: "Humidity",
-              value: 94,
+              value: humidity,
             ),
             AdditionalInfoItem(
               icon: Icons.air_rounded,
               iconColor: Colors.teal,
-              semanticLabel: "wind gusts",
+              semanticLabel: "wind speed icon",
               name: "Wind Speed",
-              value: 7.67,
+              value: windSpeed,
             ),
             AdditionalInfoItem(
-              icon: Icons.beach_access,
+              icon: Icons.compress_rounded,
               iconColor: Colors.red,
-              semanticLabel: "open umbrella",
+              semanticLabel: "compressing icon",
               name: "Pressure",
-              value: 1006,
+              value: pressure,
             )
           ],
         )

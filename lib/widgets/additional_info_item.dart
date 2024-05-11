@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:weather_app/utils/get_sign_by_weather_phenomenon.dart';
 
 class AdditionalInfoItem extends StatelessWidget {
   const AdditionalInfoItem({
@@ -14,7 +15,7 @@ class AdditionalInfoItem extends StatelessWidget {
   final Color iconColor;
   final String semanticLabel;
   final String name;
-  final double value;
+  final num value;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +35,7 @@ class AdditionalInfoItem extends StatelessWidget {
           name,
         ),
         Text(
-          "$value",
+          "$value${getSignByWeatherPhenomenon(name)}",
           style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
         ),
       ],

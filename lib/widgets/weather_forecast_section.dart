@@ -1,59 +1,50 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:weather_app/widgets/weather_forecast_card.dart';
+import 'package:weather_app/utils/get_icon_by_weather_name.dart';
 
 class WeatherForecastSection extends StatelessWidget {
-  const WeatherForecastSection({super.key});
+  const WeatherForecastSection({super.key, required this.weatherForecastList});
+
+  final List<dynamic> weatherForecastList;
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            "Weather Forecast",
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          SingleChildScrollView(
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      const Text(
+        "Weather Forecast",
+        style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+      ),
+      const SizedBox(
+        height: 10,
+      ),
+      SizedBox(
+        height: 125,
+        child: ListView.builder(
+            prototypeItem: const WeatherForecastCard(
+              time: "00:00",
+              icon: Icons.cloud,
+              iconColor: Colors.white,
+              temperature: 20,
+            ),
             scrollDirection: Axis.horizontal,
             clipBehavior: Clip.antiAlias,
-            child: Row(
-              children: [
-                WeatherForecastCard(
-                  time: "00:00",
-                  icon: Icons.cloud,
-                  iconColor: Colors.white,
-                  temperature: 20,
-                ),
-                WeatherForecastCard(
-                  time: "03:00",
-                  icon: Icons.wb_sunny,
-                  iconColor: Colors.yellow,
-                  temperature: 21,
-                ),
-                WeatherForecastCard(
-                  time: "06:00",
-                  icon: Icons.wb_sunny,
-                  iconColor: Colors.yellow,
-                  temperature: 22,
-                ),
-                WeatherForecastCard(
-                  time: "09:00",
-                  icon: Icons.cloud,
-                  iconColor: Colors.white,
-                  temperature: 23,
-                ),
-                WeatherForecastCard(
-                  time: "12:00",
-                  icon: Icons.wb_sunny,
-                  iconColor: Colors.yellow,
-                  temperature: 24,
-                ),
-              ],
-            ),
-          )
-        ]);
+            itemCount: 8,
+            itemBuilder: (context, i) {
+              final Map<String, dynamic> item = weatherForecastList[i + 1];
+              final String name = item["weather"][0]["main"];
+              final time = DateTime.parse(item["dt_txt"]);
+              final (:icon, :iconColor) = getIconByWeatherName(name);
+              final double temp = item["main"]["temp"];
+
+              return WeatherForecastCard(
+                time: DateFormat.H().format(time),
+                icon: icon,
+                iconColor: iconColor,
+                temperature: temp.round(),
+              );
+            }),
+      )
+    ]);
   }
 }

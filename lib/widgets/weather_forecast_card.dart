@@ -20,9 +20,9 @@ class WeatherForecastCard extends StatelessWidget {
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(12))),
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+        padding: const EdgeInsets.all(10),
         child: SizedBox(
-          width: 92,
+          width: 88,
           child: Wrap(
             direction: Axis.vertical,
             runAlignment: WrapAlignment.center,
@@ -42,6 +42,8 @@ class WeatherForecastCard extends StatelessWidget {
               ),
               Text(
                 "$temperature°",
+                style:
+                    const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
               ),
             ],
           ),
