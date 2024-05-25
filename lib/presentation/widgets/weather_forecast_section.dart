@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:weather_app/widgets/weather_forecast_card.dart';
+import 'package:weather_app/presentation/widgets/weather_forecast_card.dart';
 import 'package:weather_app/utils/get_icon_by_weather_name.dart';
 
 class WeatherForecastSection extends StatelessWidget {
@@ -33,14 +33,14 @@ class WeatherForecastSection extends StatelessWidget {
             itemBuilder: (context, i) {
               final Map<String, dynamic> item = weatherForecastList[i + 1];
               final String name = item["weather"][0]["main"];
-              final time = DateTime.parse(item["dt_txt"]);
-              final hourTime = DateFormat.H().format(time);
+              final dateTime = DateTime.parse(item["dt_txt"]);
+              final time = DateFormat.H().format(dateTime);
               final (:icon, :iconColor) =
-                  getIconByWeatherName(weatherName: name, hourTime: hourTime);
+                  getIconByWeatherName(weatherName: name, hourTime: time);
               final num temp = item["main"]["temp"];
 
               return WeatherForecastCard(
-                time: hourTime,
+                time: time,
                 icon: icon,
                 iconColor: iconColor,
                 temperature: temp.round(),

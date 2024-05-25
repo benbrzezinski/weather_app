@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:weather_app/widgets/additional_info_item.dart';
+import 'package:weather_app/presentation/widgets/additional_info_item.dart';
 
 class AdditionalInfoSection extends StatelessWidget {
   const AdditionalInfoSection(

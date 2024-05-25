@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:weather_app/api/weather.dart';
-import 'package:weather_app/widgets/current_weather_card.dart';
-import 'package:weather_app/widgets/weather_forecast_section.dart';
-import 'package:weather_app/widgets/additional_info_section.dart';
-import 'package:weather_app/utils/get_icon_by_weather_name.dart';
-import 'package:weather_app/utils/get_max_min_temp.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:weather_app/bloc/weather_bloc.dart';
+import 'package:weather_app/presentation/widgets/current_weather_card.dart';
+import 'package:weather_app/presentation/widgets/weather_forecast_section.dart';
+import 'package:weather_app/presentation/widgets/additional_info_section.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -15,12 +13,10 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  late Future<Map<String, dynamic>?> weather;
-
   @override
   void initState() {
     super.initState();
-    weather = getCurrentWeatherForecast();
+    context.read<WeatherBloc>().add(WeatherFetched());
   }
 
   @override
@@ -31,7 +27,11 @@ class _HomeState extends State<Home> {
       appBar: AppBar(
         title: const Text("Weather App"),
         titleTextStyle: const TextStyle(
-            fontSize: 18, fontWeight: FontWeight.bold, letterSpacing: 0.5),
+          fontSize: 18,
+          fontWeight: FontWeight.bold,
+          color: Colors.white,
+          letterSpacing: 0.5,
+        ),
         centerTitle: true,
         actions: [
           Padding(
@@ -45,18 +45,28 @@ class _HomeState extends State<Home> {
               ),
               tooltip: "Refresh",
               onPressed: () {
-                setState(() {
-                  weather = getCurrentWeatherForecast();
-                });
+                context.read<WeatherBloc>().add(WeatherFetched());
               },
             ),
           ),
         ],
       ),
-      body: FutureBuilder(
-        future: weather,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
+      body: BlocBuilder<WeatherBloc, WeatherState>(
+        builder: (context, state) {
+          if (state is WeatherFailure) {
+            return Center(
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 50),
+                child: Text(
+                  state.error,
+                  style: TextStyle(color: Colors.red[600]),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            );
+          }
+
+          if (state is! WeatherSuccess) {
             return const Center(
               child: Padding(
                 padding: EdgeInsets.only(bottom: 50),
@@ -69,37 +79,18 @@ class _HomeState extends State<Home> {
             );
           }
 
-          if (snapshot.hasError) {
-            return Center(
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 50),
-                child: Text(
-                  snapshot.error.toString(),
-                  textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.red[600]),
-                ),
-              ),
-            );
-          }
-
-          final data = snapshot.data!;
-
-          final String locationName = data["city"]["name"];
-          final Map<String, dynamic> currentWeatherData = data["list"][0];
-          final List<dynamic> weatherForecastList = data["list"];
-
-          final num currentTemp = currentWeatherData["main"]["temp"];
-          final (:maxTemp, :minTemp) = getMaxMinTemp(weatherForecastList);
-          final String currentWeatherName =
-              currentWeatherData["weather"][0]["main"];
-          final currentTime = DateTime.parse(currentWeatherData["dt_txt"]);
-          final currentHourTime = DateFormat.H().format(currentTime);
-          final (:icon, :iconColor) = getIconByWeatherName(
-              weatherName: currentWeatherName, hourTime: currentHourTime);
-
-          final num currentHumidity = currentWeatherData["main"]["humidity"];
-          final num currentWindSpeed = currentWeatherData["wind"]["speed"];
-          final num currentPressure = currentWeatherData["main"]["pressure"];
+          final data = state.weatherModel;
+          final weatherForecastList = data.weatherForecastList;
+          final locationName = data.locationName;
+          final maxTemp = data.maxTemp;
+          final minTemp = data.minTemp;
+          final icon = data.icon;
+          final iconColor = data.iconColor;
+          final currentTemp = data.currentTemp;
+          final currentWeatherName = data.currentWeatherName;
+          final currentHumidity = data.currentHumidity;
+          final currentWindSpeed = data.currentWindSpeed;
+          final currentPressure = data.currentPressure;
 
           return SingleChildScrollView(
             clipBehavior: Clip.antiAlias,
